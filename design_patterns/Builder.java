@@ -1,25 +1,41 @@
 class Builder {
   
   class Vehicle {
-    int wheels;
-    String color;
-    boolean automatic;
+    private int wheels;
+    private String color;
+    private boolean automatic;
+    private Vehicle() {
+      
+    }
     
-    Vehicle setWheels(int wheels) {
-      this.wheels = wheels;
-      return this;
+    public static class Builder {
+      private Vehicle v;
+      public Builder() {v = new Vehicle();}
+      
+      Vehicle.Builder setWheels(int wheels) {
+        v.wheels = wheels;
+        return this;
+      }
+      Vehicle.Builder setColor(String color) {
+        v.color = color;
+        return this;
+      }
+      Vehicle.Builder setAutomatic(boolean automatic) {
+        v.automatic = automatic;
+        return this;
+      }
+      public Vehicle build() {return v;}
+      
     }
-    Vehicle setColor(String color) {
-      this.color = color;
-      return this;
-    }
-    Vehicle setAutomatic(boolean automatic) {
-      this.automatic = automatic;
-      return this;
-    }
+    
+    
   }
   
   public static void main (String[] argv) {
-    Vehicle v = new Vehicle().setWheels(4).setColor("green").setAutomatic(false);
+    Vehicle v = new Vehicle.Builder()
+      .setWheels(4)
+      .setColor("green")
+      .setAutomatic(false)
+      .build();
   }
 }
