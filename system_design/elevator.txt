@@ -1,0 +1,65 @@
+
+movement enum(-1, 0, 1)
+maxFloor integer 			// (in this case = 5)
+floor integer(0, 10)
+request boolean[5]
+priority enum(-1, 1)
+
+outBtnPressed(n) {
+	request[n] = true
+}
+
+liftBtnPressed(n) {
+	request[n] = true
+}
+wait() {
+	//wait for 5 sec
+	waitOver()
+}
+
+floorReached(n) {
+	floor = 2n
+	
+	if (n == 0 || n == 5) {
+		if (n == 0) {priority = 1} else {priority = -1}
+		request[n] = false
+		movement = 0
+		wait()
+		return
+	}
+
+	if (request[n]) {
+		request[n] = false
+		movement = 0
+		wait()
+	} else {
+		floor += movement
+	}
+}
+
+waitOver() {
+	n = floor / 2
+	if (priority == 1) {
+		for (i = maxFloor; i >= n; i--) {
+			if (request[i]) {
+				movement = 1
+				floor++
+				return
+			}
+		}
+	} else {
+		for (i = 0; i <= n; i++) {
+			if (request[i]) {
+				movement = -1
+				floor--
+				return
+			}
+		}
+	}
+	wait()
+}
+
+
+
+
+
